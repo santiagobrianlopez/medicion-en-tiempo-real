@@ -5,6 +5,7 @@ let model;
 let unit = 'cm';
 
 document.getElementById('start-button').addEventListener('click', startMeasurement);
+document.getElementById('switch-camera-button').addEventListener('click', switchToRearCamera);
 document.getElementById('unit-select').addEventListener('change', (e) => {
     unit = e.target.value;
 });
@@ -12,15 +13,44 @@ document.getElementById('unit-select').addEventListener('change', (e) => {
 async function startMeasurement() {
     // Acceder a la cámara
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-        video.play();
+        const constraints = {
+            video: true
+        };
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            video.srcObject = stream;
+            video.play();
+            video.onloadedmetadata = () => {
+                // Cargar el modelo de TensorFlow.js
+                loadModel();
+            };
+        } catch (error) {
+            console.error("Error al acceder a la cámara: ", error);
+        }
     }
+}
 
-    // Cargar el modelo de TensorFlow.js
+async function switchToRearCamera() {
+    // Acceder a la cámara trasera
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        const constraints = {
+            video: {
+                facingMode: { exact: "environment" }
+            }
+        };
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            video.srcObject = stream;
+            video.play();
+        } catch (error) {
+            console.error("Error al acceder a la cámara trasera: ", error);
+            alert("No se puede acceder a la cámara trasera. Por favor, asegúrese de que su dispositivo tenga una cámara trasera disponible.");
+        }
+    }
+}
+
+async function loadModel() {
     model = await cocoSsd.load();
-
-    // Iniciar la detección de objetos
     detectFrame();
 }
 

@@ -32,10 +32,10 @@ header button, header select {
 
 #container {
     position: relative;
-    width: 100%;
+    width: calc(100% - 80px); /* Ajustar el ancho del contenedor */
     max-width: 800px;
-    height: 600px;
-    margin-top: 20px;
+    height: calc(100vh - 160px); /* Ajustar la altura del contenedor */
+    margin: 20px 40px; /* Padding de 40px */
 }
 
 video, canvas {

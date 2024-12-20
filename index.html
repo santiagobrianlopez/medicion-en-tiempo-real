@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medición en Tiempo Real</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    <script src="static/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Medición en Tiempo Real</h1>
+        <button id="start-button">Iniciar Medición</button>
+        <select id="unit-select">
+            <option value="cm">Centímetros</option>
+            <option value="m">Metros</option>
+            <option value="in">Pulgadas</option>
+            <option value="ft">Pies</option>
+        </select>
+    </header>
+    <div id="container">
+        <video id="video" autoplay></video>
+        <canvas id="canvas"></canvas>
+    </div>
+    <footer>
+        <button id="capture-button">Capturar Imagen</button>
+        <button id="export-button">Exportar Medición</button>
+    </footer>
+</body>
+</html>
